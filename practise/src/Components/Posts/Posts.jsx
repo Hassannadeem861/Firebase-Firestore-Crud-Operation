@@ -5,7 +5,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -28,10 +28,29 @@ const db = getFirestore(app);
 const Posts = () => {
     const [posts, setposts] = useState([]);
     const [postText, setPostText] = useState("");
-    // const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // useEffect(() => {
-    // }, [])
+    useEffect(() => {
+
+        const getAlldata = async () => {
+
+            const querySnapshot = await getDocs(collection(db, "posts"));
+            querySnapshot.forEach((doc) => {
+                console.log(`${doc.id} =>`, doc.data());
+
+
+                setposts((prev) => {
+
+                    let newArrays = [...posts, doc.data()];
+                    console.log("newArrays", newArrays);
+
+                    return newArrays
+                });
+            });
+        }
+        getAlldata()
+
+    }, [])
 
 
 
@@ -47,6 +66,8 @@ const Posts = () => {
                 createdOn: new Date().getTime(),
             });
             console.log("Document written with ID: ", docRef.id);
+
+            
             let timerInterval;
             Swal.fire({
                 title: "Post Created",
@@ -71,13 +92,13 @@ const Posts = () => {
             });
         } catch (e) {
             console.error("Error adding document: ", e);
-            // Swal.fire({
-            //     position: "top-end",
-            //     icon: "Error",
-            //     // title: "Your work has been saved",
-            //     showConfirmButton: false,
-            //     timer: 1500
-            // });
+            Swal.fire({
+                position: "top-end",
+                icon: "Error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
     }
 
@@ -102,8 +123,23 @@ const Posts = () => {
                     >
                     </textarea>
                     <br />
-                    <Button type='submit' sx={{ "marginLeft": '1em', }} variant="contained">Get Post</Button>
+                    <Button
+                        type='submit'
+                        sx={{ "marginLeft": '1em', }}
+                        variant="contained"
+                    >Get Post</Button>
                 </form>
+            </div>
+
+
+            <div>
+                {(isLoading) ? "Loading..." : ""}
+
+                posts.map(
+
+
+
+
             </div>
 
         </div>
