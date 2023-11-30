@@ -28,7 +28,7 @@ const db = getFirestore(app);
 const Posts = () => {
     const [posts, setposts] = useState([]);
     const [postText, setPostText] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
 
     // useEffect(() => {
     // }, [])
@@ -43,8 +43,8 @@ const Posts = () => {
 
         try {
             const docRef = await addDoc(collection(db, "posts"), {
-                text: "postText",
-                createdOn: new Date().getTime,
+                text: postText,
+                createdOn: new Date().getTime(),
             });
             console.log("Document written with ID: ", docRef.id);
             let timerInterval;
@@ -71,13 +71,13 @@ const Posts = () => {
             });
         } catch (e) {
             console.error("Error adding document: ", e);
-            Swal.fire({
-                position: "top-end",
-                icon: "Error",
-                // title: "Your work has been saved",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            // Swal.fire({
+            //     position: "top-end",
+            //     icon: "Error",
+            //     // title: "Your work has been saved",
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // });
         }
     }
 
