@@ -125,7 +125,7 @@ const Posts = () => {
                     <br />
                     <Button
                         type='submit'
-                        sx={{ "marginLeft": '1em', }}
+                        sx={{ "marginLeft": '1em' }}
                         variant="contained"
                     >Get Post</Button>
                 </form>
@@ -135,7 +135,7 @@ const Posts = () => {
             <div>
                 {(isLoading) ? "Loading..." : ""}
 
-                posts.map(
+                {/* posts.map( */}
 
 
 
